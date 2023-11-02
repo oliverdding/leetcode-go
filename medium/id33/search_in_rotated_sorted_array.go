@@ -10,29 +10,19 @@ package id33
 func search(nums []int, target int) int {
 	low, high := 0, len(nums)-1
 	for low <= high {
-		mid := (high-low)/2 + low
+		mid := low + (high-low)/2
 		if nums[mid] == target {
 			return mid
 		}
-		if nums[low] <= nums[mid] {
-			// [low, mid] are orderd, [mid + 1, high] are not ordered
-			if target >= nums[low] && target <= nums[mid] {
-				if result := binarySearch(nums[low:mid+1], target); result != -1 {
-					return result + low
-				} else {
-					return -1
-				}
+		if nums[0] <= nums[mid] {
+			if target >= nums[0] && target < nums[mid] {
+				high = mid - 1
 			} else {
 				low = mid + 1
 			}
 		} else {
-			// [mid, high] are ordered, [low, mid] are not ordered
-			if target >= nums[mid] && target <= nums[high] {
-				if result := binarySearch(nums[mid:high+1], target); result != -1 {
-					return result + low
-				} else {
-					return -1
-				}
+			if target > nums[mid] && target <= nums[len(nums)-1] {
+				low = mid + 1
 			} else {
 				high = mid - 1
 			}
@@ -45,7 +35,7 @@ func search(nums []int, target int) int {
 func binarySearch(nums []int, target int) int {
 	low, high := 0, len(nums)-1
 	for low <= high {
-		mid := (high-low)/2 + low
+		mid := low + (high-low)/2
 		if nums[mid] < target {
 			low = mid + 1
 		} else if nums[mid] > target {
