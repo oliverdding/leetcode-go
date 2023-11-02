@@ -31,20 +31,4 @@ func search(nums []int, target int) int {
 	return -1
 }
 
-// binarySearch would looking for target in nums, return it's index if found, or -1 if not found
-func binarySearch(nums []int, target int) int {
-	low, high := 0, len(nums)-1
-	for low <= high {
-		mid := low + (high-low)/2
-		if nums[mid] < target {
-			low = mid + 1
-		} else if nums[mid] > target {
-			high = mid - 1
-		} else {
-			return mid
-		}
-	}
-	return -1
-}
-
 // @lc code=end
