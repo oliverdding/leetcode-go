@@ -8,18 +8,18 @@ package id35
 
 // @lc code=start
 func searchInsert(nums []int, target int) int {
-	low, high := 0, len(nums)-1
-	for low <= high {
-		mid := low + (high-low)/2
-		if nums[mid] < target {
-			low = mid + 1
-		} else if nums[mid] > target {
-			high = mid - 1
+	lo, hi := 0, len(nums)
+	for lo < hi {
+		mid := lo + ((hi - lo) >> 1)
+		if nums[mid] > target {
+			hi = mid
+		} else if nums[mid] < target {
+			lo = mid + 1
 		} else {
 			return mid
 		}
 	}
-	return low
+	return lo
 }
 
 // @lc code=end
