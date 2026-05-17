@@ -10,7 +10,9 @@ package id1456
 func maxVowels(s string, k int) int {
 	nextCnt := 0
 	res := 0
-	for right, in := range []byte(s) { // `i` stands for the right cornor of sliding window
+
+	// `i` stands for the right cornor of sliding window
+	for right, in := range []byte(s) {
 		if in == 'a' ||
 			in == 'e' ||
 			in == 'i' ||
