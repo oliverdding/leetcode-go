@@ -1,7 +1,5 @@
 package id3652
 
-import "math"
-
 /*
  * @lc app=leetcode.cn id=3652 lang=golang
  *
@@ -10,28 +8,26 @@ import "math"
 
 // @lc code=start
 func maxProfit(prices []int, strategy []int, k int) int64 {
-	res := int64(0)
-	s := len(prices)
-	for i := 0; i < s; i++ {
-		res += int64(prices[i]) * int64(strategy[i])
-	}
-	origin, modified := int64(0), int64(0)
-	var maxChange int64 = math.MinInt64
-	for right := 0; right < s; right++ {
-		origin += int64(prices[right]) * int64(strategy[right])
-		if right >= k/2 {
-			modified += int64(prices[right])
-		}
-		left := right - k + 1
-		if left < 0 {
+	total := int64(0)
+	diff := int64(0)
+	maxDiff := int64(0)
+	for i := 0; i < len(prices); i++ {
+		total += int64(prices[i]) * int64(strategy[i])
+
+		diff += int64(prices[i]) * (1 - int64(strategy[i])) // enter right part, strategy -> 1
+		left := i - k + 1
+		if left < 0 { // window not fill yet
+			if left+k/2 >= 0 { // right element (left+k/2) enter left part, 1 -> 0
+				diff += int64(-prices[left+k/2])
+			}
 			continue
 		}
-		maxChange = max(maxChange, res+modified-origin)
-		origin -= int64(prices[left]) * int64(strategy[left])
-		modified -= int64(prices[left+k/2])
+		maxDiff = max(maxDiff, diff)
+		// left element leave window, 0 -> strategy
+		// and right element (left+k/2) enter left part, 1 -> 0
+		diff += int64(-prices[left+k/2]) + int64(prices[left])*int64(strategy[left])
 	}
-	res = max(res, maxChange)
-	return int64(res)
+	return total + maxDiff
 }
 
 // @lc code=end
