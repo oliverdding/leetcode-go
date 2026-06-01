@@ -8,17 +8,34 @@ package id50
 
 // @lc code=start
 func myPow(x float64, n int) float64 {
-	if n == 0 {
-		return 1
+	if n < 0 {
+		x = 1 / x
+		n = -n
 	}
-	if n == 1 {
-		return x
+	res := float64(1)
+	for n > 0 {
+		if n&1 != 0 {
+			res *= x
+		}
+		x *= x
+		n >>= 1
 	}
-	if n == -1 {
-		return 1 / x
-	}
-	half := myPow(x, n/2)
-	return half * half * myPow(x, n%2)
+	return res
 }
 
 // @lc code=end
+
+func myPowRecursion(x float64, n int) float64 {
+	if n < 0 {
+		return myPow(1/x, -n)
+	}
+	if n == 0 {
+		return 1
+	}
+	res := myPow(x, n/2)
+	res *= res
+	if (n&1)%2 == 1 {
+		res *= x
+	}
+	return res
+}
