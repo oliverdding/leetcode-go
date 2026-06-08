@@ -11,15 +11,15 @@ func maximumUniqueSubarray(nums []int) int {
 	res := 0
 	left := 0
 	sum := 0
-	apprs := [10001]int{}
+	apprs := [10001]bool{}
 	for _, in := range nums {
-		apprs[in]++
-		sum += in
-		for ; apprs[in] != 1; left++ {
+		for ; apprs[in]; left++ {
 			out := nums[left]
-			apprs[out]--
+			apprs[out] = false
 			sum -= out
 		}
+		apprs[in] = true
+		sum += in
 		res = max(res, sum)
 	}
 	return res
