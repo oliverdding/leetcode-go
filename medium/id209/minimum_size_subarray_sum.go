@@ -1,7 +1,5 @@
 package id209
 
-import "math"
-
 /*
  * @lc app=leetcode.cn id=209 lang=golang
  *
@@ -10,24 +8,22 @@ import "math"
 
 // @lc code=start
 func minSubArrayLen(target int, nums []int) int {
-	if len(nums) == 0 {
-		return 0
-	}
-	res := math.MaxInt
-	left, right, sum := 0, 0, 0
-	for right < len(nums) {
-		sum += nums[right]
-		for sum >= target {
-			res = min(res, right - left + 1)
+	sum := 0
+	left := 0
+	res := len(nums) + 1
+	for right, in := range nums {
+		sum += in
+		for ; sum-nums[left] >= target; left++ {
 			sum -= nums[left]
-			left++
 		}
-		right++
+		if sum >= target {
+			res = min(res, right-left+1)
+		}
 	}
-	if res ==  math.MaxInt {
+	if res == len(nums)+1 {
 		return 0
 	}
 	return res
 }
-// @lc code=end
 
+// @lc code=end
