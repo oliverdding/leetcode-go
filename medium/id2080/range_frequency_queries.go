@@ -16,12 +16,7 @@ type RangeFreqQuery struct {
 func Constructor(arr []int) RangeFreqQuery {
 	data := make(map[int][]int)
 	for i, e := range arr {
-		if list, ok := data[e]; ok {
-			list = append(list, i)
-			data[e] = list
-		} else {
-			data[e] = []int{i}
-		}
+		data[e] = append(data[e], i)
 	}
 	return RangeFreqQuery{
 		data,
